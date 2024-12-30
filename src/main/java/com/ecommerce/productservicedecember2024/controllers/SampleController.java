@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 //This class will now be hosting a set of HTTP API's
 //Get request, Put request, delete, post
 
-//over the network I am going to call SampleController and through HTTP API's - use @RestController annotation
+//over the network I am going to call SampleController and through HTTP API's, we are going to host everything - use @RestController annotation
+//@RequestMapping' is allowing you to map methods to various HTTP methods, while '@GetMappling' is a specific shortcut for handling GET requests
+//mapping will be stored by spring internally at handler napping
 @RestController
 @RequestMapping("/say") //This is "say type API's" and call it as identifier
 public class SampleController {
@@ -47,8 +49,8 @@ public class SampleController {
 
     //http://localhost:8080/say/bye/aarthi ; output: Bye aarthi
     @GetMapping("/bye/{name}")
-    public String sayBye(@PathVariable String xyz){
-        return "Bye " + xyz;
+    public String sayBye(@PathVariable String name){
+        return "Bye " + name;
     }
 }
 

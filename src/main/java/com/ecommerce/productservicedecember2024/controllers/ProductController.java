@@ -1,11 +1,44 @@
 package com.ecommerce.productservicedecember2024.controllers;
 
+import com.ecommerce.productservicedecember2024.models.Category;
+import com.ecommerce.productservicedecember2024.models.Product;
+import com.ecommerce.productservicedecember2024.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController/*spring says, I will create object of product controller, to say product service as an object to spring, mention @Service in fakeStore product service */
 @RequestMapping("/product")
 public class ProductController {
+
+    ProductService productService;//instance(object created from a class) of the product service
+
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){/*@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService*/
+                                                                                                  //here, this productService coming from spring. spring puts the service bean to here. spring framework created as bean and store them in IOC container
+        this.productService = productService;
+    }
+    @GetMapping(
+            path="/{id}", produces = "application/json"
+    )
+    public Product getProductById(@PathVariable("id") Long id){
+        //return productService.getSingleProduct(id);//return type is product here, I have mentioned directly here
+        Product product = productService.getSingleProduct(id);
+        return product;
+
+       /* Product product = new Product("abc",2.5D, new Category("cat1","cat1 desc"));
+        Product product1 = new Product();
+        return product1;*/
+    }
+
+    @GetMapping()
+    public List<Product> getAllProducts(){
+        return productService.getAllProducts();//this will return list of productsList<Products>
+    }
 }
 /*
 Product Service

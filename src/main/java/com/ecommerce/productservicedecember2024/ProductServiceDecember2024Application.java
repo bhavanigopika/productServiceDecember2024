@@ -11,10 +11,6 @@ public class ProductServiceDecember2024Application {
     public static void main(String[] args) {
 
         SpringApplication.run(ProductServiceDecember2024Application.class, args);
-        Product p = new Product();
-        p.getTitle();
-        p.setTitle("Macbook");
-        p.setCategory(new Category());
     }
 
 }

@@ -2,20 +2,31 @@ package com.ecommerce.productservicedecember2024.models;
 
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 //@Getter(AccessLevel.PUBLIC) // - All getters are public now
-//@Setter(AccessLevel.PRIVATE) //- All setters level are public
-@Getter
-@Setter
+//@Setter(AccessLevel.PRIVATE) //- All setters level are private
+//@Getter
+//@Setter
 public class Product extends BaseModel {
     private String title;
-    private Double price;
+    private double price;
     private Category category;
 
+    public Product() {
+    }
+
+    public Product(String title, Double price, Category category) {
+        this.title = title;
+        this.price = price;
+        this.category = category;
+    }
+
     //boilerplate code
-    /*public String getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -23,11 +34,11 @@ public class Product extends BaseModel {
         this.title = title;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -37,7 +48,7 @@ public class Product extends BaseModel {
 
     public void setCategory(Category category) {
         this.category = category;
-    }*/
+    }
 }
 /*
 Why private? We don't want anyone to use from outside (i.e) Encapsulate = Encapsulation

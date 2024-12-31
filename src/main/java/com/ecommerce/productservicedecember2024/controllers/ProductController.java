@@ -5,7 +5,10 @@ import com.ecommerce.productservicedecember2024.models.Product;
 import com.ecommerce.productservicedecember2024.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,15 +19,16 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
-    ProductService productService;//instance(object created from a class) of the product service
+    ProductService productService;//instance(object created from a class) of the product service interface
 
     public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){/*@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService*/
                                                                                                   //here, this productService coming from spring. spring puts the service bean to here. spring framework created as bean and store them in IOC container
         this.productService = productService;
     }
-    @GetMapping(
+   /* @GetMapping(
             path="/{id}", produces = "application/json"
-    )
+    )*/
+    @GetMapping("/{id}")
     public Product getProductById(@PathVariable("id") Long id){
         //return productService.getSingleProduct(id);//return type is product here, I have mentioned directly here
         Product product = productService.getSingleProduct(id);
@@ -39,6 +43,19 @@ public class ProductController {
     public List<Product> getAllProducts(){
         return productService.getAllProducts();//this will return list of productsList<Products>
     }
+
+    //@RequestBody - converts received json to Product java object and here it returns a product
+    @PutMapping("/{id}")
+    public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product){
+        return productService.replaceProduct(id, product);
+    }
+
+    //partial update
+    @PatchMapping("/{id}")
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
+        return productService.updateProduct(id, product);
+    }
+
 }
 /*
 Product Service

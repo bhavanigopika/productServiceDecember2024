@@ -11,4 +11,6 @@ public interface ProductService {
     //So, every concrete implementation of product service is going to follow the same method signature
     Product getSingleProduct(Long productId);//return type would be Product
     List<Product> getAllProducts();
+    Product updateProduct(Long id, Product product);
+    Product replaceProduct(Long id, Product product);
 }

@@ -20,4 +20,14 @@ public class DBProductService implements ProductService {
     public List<Product> getAllProducts() {
         return List.of();
     }
+
+    @Override
+    public Product updateProduct(Long id, Product product) {
+        return null;
+    }
+
+    @Override
+    public Product replaceProduct(Long id, Product product) {
+        return null;
+    }
 }

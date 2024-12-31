@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 //In general, it will create and manage the life cycle of bean. When application shut down, the beans are destroyed and everything manage by spring
 
 /* Application context/spring container/IOC container - It is a container and putting all objects and use it for multiple times.
-/*@Configuration - now spring knows, that this class is responsible for providing beans*/
+/*@Configuration - now spring knows, that this class is responsible for providing beans, here we use rest template beans  */
 @Configuration
 public class ApplicationConfig{
 

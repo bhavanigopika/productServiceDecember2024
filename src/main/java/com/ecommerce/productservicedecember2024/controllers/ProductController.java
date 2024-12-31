@@ -1,9 +1,12 @@
 package com.ecommerce.productservicedecember2024.controllers;
 
+import com.ecommerce.productservicedecember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicedecember2024.models.Category;
 import com.ecommerce.productservicedecember2024.models.Product;
 import com.ecommerce.productservicedecember2024.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,11 +28,10 @@ public class ProductController {
                                                                                                   //here, this productService coming from spring. spring puts the service bean to here. spring framework created as bean and store them in IOC container
         this.productService = productService;
     }
-   /* @GetMapping(
+    @GetMapping(
             path="/{id}", produces = "application/json"
-    )*/
-    @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id){
+    )
+    public Product getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
         //return productService.getSingleProduct(id);//return type is product here, I have mentioned directly here
         Product product = productService.getSingleProduct(id);
         return product;
@@ -37,6 +39,36 @@ public class ProductController {
        /* Product product = new Product("abc",2.5D, new Category("cat1","cat1 desc"));
         Product product1 = new Product();
         return product1;*/
+    }
+
+    @GetMapping("/status/{id}")
+    public ResponseEntity<Product> getProductByIdAndCheckResponseEntity(@PathVariable("id") Long id) throws ProductNotFoundException {
+
+        //return the product from the productService here. If we want to additionally return say, status code, then use responseEntity, the responseEntity type is Product(i.e) sending back to the product
+        /*
+        ResponseEntity<Product> responseEntity = new ResponseEntity<>(productService.getSingleProduct(id), HttpStatus.OK);
+        return responseEntity;
+        */
+
+        //throw new RuntimeException("This is an Exception. This is thrown from Product Controller");
+
+        //We don't want to get error in product controller, so error should come from product service
+        //also, error should not appear like the stack trace.Hence, do it gracefully by performing the code in try-catch block
+       /* ResponseEntity<Product> response = null;
+        try{
+            Product product = productService.getSingleProduct(id);
+            response = new ResponseEntity<>(product, HttpStatus.OK);
+        }catch(RuntimeException e){
+            response = new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+        }
+
+        return response;*/
+
+        //Controller - should act as waiter. So, handle the exception in controller is also not better. So, handle it in GlobalExceptionHandler whatever Service layer returns to this Controller. Controller goes
+        // to controllerAdivce and exception message goes to the client. Why we are doing like this because we are using java in spring framework not simply doing the code as java
+
+        ResponseEntity<Product> responseEntity = new ResponseEntity<>(productService.getSingleProduct(id), HttpStatus.OK);
+        return responseEntity;
     }
 
     @GetMapping()

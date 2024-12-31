@@ -1,6 +1,7 @@
 package com.ecommerce.productservicedecember2024.services;
 
 import com.ecommerce.productservicedecember2024.dto.FakeStoreProductDto;
+import com.ecommerce.productservicedecember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicedecember2024.models.Category;
 import com.ecommerce.productservicedecember2024.models.Product;
 import org.springframework.http.HttpMethod;
@@ -27,7 +28,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product getSingleProduct(Long productId) {
+    public Product getSingleProduct(Long productId) throws ProductNotFoundException {
     /*To call third party API(http request), we can use RestTemplate which is provided by Spring
     no need to create object of Rest Template each and every time. So, take RestTemplate at outside and marked it as bean. Because, if tomorrow, we want to change this "restTemplate" as some other,
     then entire things could change
@@ -36,7 +37,16 @@ public class FakeStoreProductService implements ProductService {
 
         //FakeStoreProductDto.class - I will provide the class of mapping (i.e) responseType...My responseType is like FakeStoreProductDto and not like Product class.
         //So, after getting the response from fakeStoreProductDto, I set it into my Product class. Finally, I will return this product
+
         FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class);
+
+        //throw new RuntimeException("This is an Exception. This is thrown from Product Service");
+
+        //throw new ArithmeticException();//Goes to GlobalExceptionHandler and get the message
+
+        if(fakeStoreProductDto == null){
+            throw new ProductNotFoundException("The product id " + productId + "does not exist");
+        }
 
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }

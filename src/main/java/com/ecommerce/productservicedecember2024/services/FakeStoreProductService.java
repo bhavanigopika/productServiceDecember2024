@@ -45,7 +45,7 @@ public class FakeStoreProductService implements ProductService {
         //throw new ArithmeticException();//Goes to GlobalExceptionHandler and get the message
 
         if(fakeStoreProductDto == null){
-            throw new ProductNotFoundException("The product id " + productId + "does not exist");
+            throw new ProductNotFoundException("The product id " + productId + " does not exist");
         }
 
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);

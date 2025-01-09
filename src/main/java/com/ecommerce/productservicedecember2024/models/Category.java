@@ -1,9 +1,15 @@
 package com.ecommerce.productservicedecember2024.models;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Category{
+//@Getter
+//@Setter
+@Entity
+//Here, the tb column as id, created_at, updated_at, description, name
+public class Category extends BaseModel{
     private String name;
     private String description;
 

@@ -19,10 +19,11 @@ public class ApplicationConfig{
     @Bean //@Bean denotes that getRestTemplate method is a bean producer not bean. If it is bean producer, then take this bean(object (i.e) restTemplate here) and put it into the application context or IOC container, so that classes, services use this
           //here, bean producer produces a new object of rest template
     public RestTemplate getRestTemplate(){//we are returning the RestTemplate here
-       return new RestTemplate();
+
+        return new RestTemplate();
     }
 
-/*
+    /*
     //here, the following method is not registered as bean, so whatever return here will not register as beans and not put it into the application context
     public int getValue(){
         return 0;

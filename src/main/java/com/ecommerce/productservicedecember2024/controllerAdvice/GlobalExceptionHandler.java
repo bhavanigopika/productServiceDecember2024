@@ -35,6 +35,7 @@ public class GlobalExceptionHandler {
 //        return responseEntity;
 //    }
 
+    //handling the error here (i.e) ControllerAdvice
     //service -> controller -> controllerAdvice -> client
     //But here, we mention some parameter. So, what we return in body (i.e) e.getMessage, it returns the response to client
     @ExceptionHandler(ProductNotFoundException.class)

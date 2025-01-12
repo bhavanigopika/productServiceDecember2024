@@ -4,6 +4,7 @@ import com.ecommerce.productservicedecember2024.dto.FakeStoreProductDto;
 import com.ecommerce.productservicedecember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicedecember2024.models.Category;
 import com.ecommerce.productservicedecember2024.models.Product;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,11 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("fakeStoreProductService")
+/*
+@Primary//to define which service should use either fakestoreproductservice or dbproductservice from product controller.
+        //But we have to define which service should use in Controller (product controller) side itself. So, define @Qualifier in product controller
+ */
 public class FakeStoreProductService implements ProductService {
     /*
     I am not creating a restTemplate object again and again. So, I am getting it from application context where spring already have restTemplate here.

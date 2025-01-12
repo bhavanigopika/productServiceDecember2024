@@ -4,7 +4,10 @@ import com.ecommerce.productservicedecember2024.exceptions.ProductNotFoundExcept
 import com.ecommerce.productservicedecember2024.models.Category;
 import com.ecommerce.productservicedecember2024.models.Product;
 import com.ecommerce.productservicedecember2024.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +23,21 @@ import java.util.List;
 
 @RestController/*spring says, I will create object of product controller, to say product service as an object to spring, mention @Service in fakeStore product service */
 @RequestMapping("/product")
+//@Configuration
 public class ProductController {
-
+    //@Qualifier("${my.bean.qualifier}")
     ProductService productService;//instance(object created from a class) of the product service interface
 
-    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){/*@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService*/
+    public ProductController(@Qualifier("dbProductService") ProductService productService){//@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService
                                                                                                   //here, this productService coming from spring. spring puts the service bean to here. spring framework created as bean and store them in IOC container
         this.productService = productService;
     }
+
+    /*public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
+        this.productService = productService;
+    }*/
+
+    //Another way to provide @Qualifier is application.properties(check in the configuration file) - so, provide variable name and use configuration file to add the qualifier
     @GetMapping(
             path="/{id}", produces = "application/json"
     )

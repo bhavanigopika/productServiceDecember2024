@@ -12,6 +12,8 @@ public interface ProductService {
     //So, every concrete implementation of product service is going to follow the same method signature
     Product getSingleProduct(Long productId) throws ProductNotFoundException;//return type would be Product
     List<Product> getAllProducts();
-    Product updateProduct(Long id, Product product);
+    Product updateProduct(Long id, Product product) throws ProductNotFoundException;
     Product replaceProduct(Long id, Product product);
+
+    void deleteSingleProduct(Long product_id) throws ProductNotFoundException;
 }

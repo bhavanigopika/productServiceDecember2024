@@ -16,14 +16,14 @@ import lombok.Setter;
 //table as id, created_at, updated_at, price, title, category_id
 public class Product extends BaseModel {
     private String title;
-    private double price;
+    private Double price;
     @ManyToOne
     private Category category;
 
     public Product() {
     }
 
-    public Product(String title, double price, Category category) {
+    public Product(String title, Double price, Category category) {
         this.title = title;
         this.price = price;
         this.category = category;
@@ -38,11 +38,11 @@ public class Product extends BaseModel {
         this.title = title;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -63,7 +63,7 @@ for 1 category, we get multiple products  may be 1,3, 5 or 2, 5
 Example, say we have 10 products
 product id : category
 1 : electronics
-2 : jewelery,
+2 : jewelery
 3 : men's clothing
 4 : women's clothing
 5 : men's clothing

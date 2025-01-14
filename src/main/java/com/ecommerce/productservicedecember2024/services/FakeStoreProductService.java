@@ -143,4 +143,8 @@ public class FakeStoreProductService implements ProductService {
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
 
     }
+
+    @Override
+    public void deleteSingleProduct(Long product_id) {
+    }
 }

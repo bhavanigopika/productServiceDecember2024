@@ -33,12 +33,47 @@ public class DBProductService implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+
+        //Why here we didn't use optional? because list of array is not going to be null, list should be empty...so, not possible of null pointer exception
+        List<Product> products = productRepository.findAll();
+
+        return products;
     }
 
     @Override
-    public Product updateProduct(Long id, Product product) {
-        return null;
+    public void deleteSingleProduct(Long productId) throws ProductNotFoundException {
+
+        //The following line execute and delete it but not return.
+        //productRepository.deleteById(product_id);
+
+        //Let's delete the product
+        //check if the product is present or not
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if(optionalProduct.isEmpty()){
+            throw new ProductNotFoundException("The product with id " + productId + " does not exist");
+        }
+        productRepository.deleteById(productId);
+    }
+
+    //update is PATCH operation
+    @Override
+    public Product updateProduct(Long productId, Product product) throws ProductNotFoundException {
+        //first get the product
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if(optionalProduct.isEmpty()){
+            throw new ProductNotFoundException("The product with id " + productId + " does not exist");
+        }
+
+        //get the product from optionalProduct bucket
+        Product productInDb = optionalProduct.get();
+
+        if(product.getTitle() != null){
+            productInDb.setTitle(product.getTitle());
+        }
+        if(product.getPrice() != null){
+            productInDb.setPrice(product.getPrice());
+        }
+        return productRepository.save(productInDb);
     }
 
     @Override

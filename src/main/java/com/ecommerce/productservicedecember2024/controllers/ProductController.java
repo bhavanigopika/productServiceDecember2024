@@ -3,6 +3,7 @@ package com.ecommerce.productservicedecember2024.controllers;
 import com.ecommerce.productservicedecember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicedecember2024.models.Category;
 import com.ecommerce.productservicedecember2024.models.Product;
+import com.ecommerce.productservicedecember2024.repositories.ProductRepository;
 import com.ecommerce.productservicedecember2024.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,15 +88,28 @@ public class ProductController {
         return productService.getAllProducts();//this will return list of productsList<Products>
     }
 
+    //Get the status for get all products also
+    @GetMapping("/status")
+    public ResponseEntity<List<Product>> getAllProductsAndCheckResponseEntity(){
+        ResponseEntity<List<Product>> responseEntity = new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+        return responseEntity;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProductById(@PathVariable("id") Long product_id) throws ProductNotFoundException {
+        productService.deleteSingleProduct(product_id);
+    }
+
+    //update everything = put mapping
     //@RequestBody - converts received json to Product java object and here it returns a product
     @PutMapping("/{id}")
     public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product){
         return productService.replaceProduct(id, product);
     }
 
-    //partial update
+    //partial update (i.e) specific value update - patch mapping
     @PatchMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
         return productService.updateProduct(id, product);
     }
 

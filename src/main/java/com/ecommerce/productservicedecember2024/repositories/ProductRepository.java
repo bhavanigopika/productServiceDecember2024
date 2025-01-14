@@ -24,6 +24,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //select * from product where price BETWEEN 10 and 25;
     List<Product> findByPriceBetween(Double lower, Double higher);
 
+    //The below things are extended from crud repository. So no need to write findById, findAll,
+
+    /*
     //to avoid null pointer exception, we use optional
     Optional<Product> findById(Long productId);//findById coming from crud repository
+
+    //get all products
+    List<Product> findAll();
+
+    //delete the single product by id
+    void deleteById(Long aLong);
+    */
+
+
+
 }

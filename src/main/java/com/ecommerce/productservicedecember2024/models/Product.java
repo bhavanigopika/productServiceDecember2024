@@ -1,6 +1,7 @@
 package com.ecommerce.productservicedecember2024.models;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
@@ -10,16 +11,27 @@ import lombok.Setter;
 
 //@Getter(AccessLevel.PUBLIC) // - All getters are public now
 //@Setter(AccessLevel.PRIVATE) //- All setters level are private
-//@Getter
-//@Setter
+@Getter
+@Setter
 @Entity
 //table as id, created_at, updated_at, price, title, category_id
 public class Product extends BaseModel {
     private String title;
     private Double price;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Category category;
-
+    /*
+    If I am creating the product, please apply the cascade operation to the inner attributes or foreign key attributes as well
+    So, If I am creating the product, please go and create category as well...
+     */
+    /*
+    Cascade - If I am creating a product, please apply the cascade operation to the inner attribute or the foreign key(here, category_id is foreign key to product)
+    CascadeType.PERSIST - Whenever we persist (i.e) save or add a product data, then add the data for category also(create the category data also)
+    CascadeType.REMOVE - Here, we should not use remove, because 1 product have 1 category and 1 category have multiple products. So, product to category is many-to-one relationship
+                          If we say, remove the product, then the corresponding jewellery category also gets deleted, but the same jewellery category belongs to other product also.
+                          So, we should not use REMOVE cascade type...
+     Note: we can overload the multiple cascade types by putting all of them in array cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+     */
     public Product() {
     }
 
@@ -30,7 +42,7 @@ public class Product extends BaseModel {
     }
 
     //boilerplate code
-    public String getTitle() {
+   /* public String getTitle() {
         return title;
     }
 
@@ -52,7 +64,7 @@ public class Product extends BaseModel {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
+    }*/
 }
 /*
 

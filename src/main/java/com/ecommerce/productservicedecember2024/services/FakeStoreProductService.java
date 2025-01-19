@@ -1,6 +1,7 @@
 package com.ecommerce.productservicedecember2024.services;
 
 import com.ecommerce.productservicedecember2024.dto.FakeStoreProductDto;
+import com.ecommerce.productservicedecember2024.dto.GetProductDto;
 import com.ecommerce.productservicedecember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicedecember2024.models.Category;
 import com.ecommerce.productservicedecember2024.models.Product;
@@ -100,6 +101,8 @@ public class FakeStoreProductService implements ProductService {
         return products;
     }
 
+    //ToDo: check the update product: I've checked. Here, fakestore api not allowing the patch operation, even though the code has written
+    //PATCH - partial update (i.e) specific value update - patch mapping
     @Override
     public Product updateProduct(Long id, Product product) {
         //PATCH
@@ -133,6 +136,7 @@ public class FakeStoreProductService implements ProductService {
         */
     }
 
+    //PUT - update everything = put mapping, others gets null
     @Override
     public Product replaceProduct(Long id, Product product) {
         RequestCallback requestCallback = restTemplate.httpEntityCallback(product, FakeStoreProductDto.class);
@@ -146,5 +150,15 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public void deleteSingleProduct(Long product_id) {
+    }
+
+    @Override
+    public GetProductDto replaceProductDto(Long id, Product product) {
+        return null;
+    }
+
+    @Override
+    public Product addNewProduct(Product product) {
+        return null;
     }
 }

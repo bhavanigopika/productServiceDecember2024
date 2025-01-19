@@ -1,26 +1,13 @@
-package com.ecommerce.productservicedecember2024.models;
-
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import lombok.Setter;
+package com.ecommerce.productservicedecember2024.dto;
 
 import java.util.Date;
-import java.util.UUID;
 
-@Getter
-@Setter
-@MappedSuperclass
-public class BaseModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//identity - auto increment
+public class BaseModelDto {
     private Long id;
     private Date createdAt;
     private Date updatedAt;
 
-   /* public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -42,5 +29,5 @@ public class BaseModel {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }*/
+    }
 }

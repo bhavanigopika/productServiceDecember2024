@@ -1,5 +1,6 @@
 package com.ecommerce.productservicedecember2024.services;
 
+import com.ecommerce.productservicedecember2024.dto.GetProductDto;
 import com.ecommerce.productservicedecember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicedecember2024.models.Product;
 
@@ -13,7 +14,11 @@ public interface ProductService {
     Product getSingleProduct(Long productId) throws ProductNotFoundException;//return type would be Product
     List<Product> getAllProducts();
     Product updateProduct(Long id, Product product) throws ProductNotFoundException;
-    Product replaceProduct(Long id, Product product);
+    Product replaceProduct(Long id, Product product) throws ProductNotFoundException;
 
     void deleteSingleProduct(Long product_id) throws ProductNotFoundException;
+
+    GetProductDto replaceProductDto(Long id, Product newProduct) throws ProductNotFoundException;
+
+    Product addNewProduct(Product product);
 }

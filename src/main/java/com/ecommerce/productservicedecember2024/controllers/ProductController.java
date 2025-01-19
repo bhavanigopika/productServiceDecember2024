@@ -1,5 +1,6 @@
 package com.ecommerce.productservicedecember2024.controllers;
 
+import com.ecommerce.productservicedecember2024.dto.GetProductDto;
 import com.ecommerce.productservicedecember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicedecember2024.models.Category;
 import com.ecommerce.productservicedecember2024.models.Product;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,6 +85,8 @@ public class ProductController {
         return responseEntity;
     }
 
+    /*****/
+
     @GetMapping()
     public List<Product> getAllProducts(){
         return productService.getAllProducts();//this will return list of productsList<Products>
@@ -95,23 +99,45 @@ public class ProductController {
         return responseEntity;
     }
 
+    /*****/
+
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable("id") Long product_id) throws ProductNotFoundException {
         productService.deleteSingleProduct(product_id);
     }
 
-    //update everything = put mapping
-    //@RequestBody - converts received json to Product java object and here it returns a product
-    @PutMapping("/{id}")
-    public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product){
-        return productService.replaceProduct(id, product);
-    }
+    /*****/
 
     //partial update (i.e) specific value update - patch mapping
     @PatchMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
-        return productService.updateProduct(id, product);
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product newProduct) throws ProductNotFoundException {
+        return productService.updateProduct(id, newProduct);
     }
+
+    /*****/
+
+    //update everything = put mapping
+    //@RequestBody - converts received json to Product java object and here it returns a product
+    @PutMapping("/{id}")
+    public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
+        return productService.replaceProduct(id, product);
+    }
+
+    @PutMapping("/put/id")
+    public GetProductDto replaceProductDto(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
+        return productService.replaceProductDto(id, product);
+    }
+
+    /*****/
+
+    //create the product - post mapping
+    @PostMapping()
+    public Product addNewProduct(@RequestBody Product product){
+        return productService.addNewProduct(product);
+    }
+
+    /*****/
+
 
 }
 /*

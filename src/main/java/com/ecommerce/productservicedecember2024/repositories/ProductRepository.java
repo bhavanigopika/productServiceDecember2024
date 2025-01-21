@@ -69,6 +69,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<ProductWithIdAndTitle> randomSearchMethodForProduct();
 
     /* Native Queries : Our case in native queries is SQL (i.e) we can write sql queries here as well*/
+
     //Here, we can write "product" referred as table not as captial 'P' Product. Just have to write like MySQL query. If we write in Oracle query,
     //then we have to write like it as Oracle Query here - Note down in Native Query
     @Query(nativeQuery = true, value = "select p.id as id, p.title as title from product p")

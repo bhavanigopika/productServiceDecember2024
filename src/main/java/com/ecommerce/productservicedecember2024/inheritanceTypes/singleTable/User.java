@@ -10,7 +10,7 @@ import jakarta.persistence.InheritanceType;
 
 @Entity(name = "st_users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//table have user_type, id, email, name, module, company_name, psp, dtype
+//table have user_type(dtype), id, email, name, module, company_name, psp
 //I can annotate dtype = student, instructor, mentor as discriminatorType = String or Discriminator Type = Integer  like student = 1, instructor = 2, mentor = 3
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.INTEGER)
 @DiscriminatorValue(value = "0")

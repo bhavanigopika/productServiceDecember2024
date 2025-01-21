@@ -7,7 +7,7 @@ import jakarta.persistence.InheritanceType;
 
 @Entity(name = "jt_users")
 @Inheritance(strategy = InheritanceType.JOINED)
-//Here, the user column have id, email, name, dtype, psp, module, company_name
+//Here, the user column have id, email, name
 public class User {
     @Id
     private int id;

@@ -5,14 +5,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
-@Entity
+/*@Entity
 public class Order {
     @Id
     private int id;
     private String productName;
     @ManyToOne
     private Customer customer;
-}
+}*/
 /*
 Customer:Order
 1:m -> 1 customer can make multiple order

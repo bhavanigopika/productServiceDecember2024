@@ -7,7 +7,7 @@ import jakarta.persistence.InheritanceType;
 
 @Entity(name = "tpc_users")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-//Here, the table like id, email,name,dtype,module,company_name,psp
+//Here, the table like id, email,name
 public class User {
     @Id
     private int id;

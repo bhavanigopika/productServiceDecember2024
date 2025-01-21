@@ -4,6 +4,7 @@ import com.ecommerce.productservicedecember2024.projections.ProductWithIdAndTitl
 import com.ecommerce.productservicedecember2024.repositories.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -11,8 +12,9 @@ import java.util.List;
 @SpringBootTest
 class ProductServiceDecember2024ApplicationTests {
     //test the hql queries here
+    //How Qualifier is used if we use @Autowired instead of writing the constructor dependency injection? @Autowired(@Qualifier = "dbProductService"). However, we don't need this...
     @Autowired //@Autowired doing the dependency injection for product repository
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Test
     void contextLoads() {

@@ -1,6 +1,7 @@
 package com.ecommerce.productservicedecember2024.models;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -11,12 +12,13 @@ import lombok.Setter;
 
 //@Getter(AccessLevel.PUBLIC) // - All getters are public now
 //@Setter(AccessLevel.PRIVATE) //- All setters level are private
-@Getter
-@Setter
+//@Getter
+//@Setter
 @Entity
 //table as id, created_at, updated_at, price, title, category_id
 public class Product extends BaseModel {
     private String title;
+    //@Nullable
     private Double price;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Category category;
@@ -42,7 +44,7 @@ public class Product extends BaseModel {
     }
 
     //boilerplate code
-   /* public String getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -64,7 +66,7 @@ public class Product extends BaseModel {
 
     public void setCategory(Category category) {
         this.category = category;
-    }*/
+    }
 }
 /*
 

@@ -9,8 +9,8 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @Entity
 //Here, the tb column as id, created_at, updated_at, description, name
 public class Category extends BaseModel{
@@ -44,7 +44,7 @@ public class Category extends BaseModel{
         this.description = description;
     }
 
-   /* public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -66,5 +66,5 @@ public class Category extends BaseModel{
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }*/
+    }
 }

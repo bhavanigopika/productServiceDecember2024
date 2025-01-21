@@ -108,7 +108,7 @@ public class ProductController {
 
     /*****/
 
-    //partial update (i.e) specific value update - patch mapping
+    //partial update (i.e) specific value update (i.e) update whatever is provided - patch mapping
     @PatchMapping("/{id}")
     public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product newProduct) throws ProductNotFoundException {
         return productService.updateProduct(id, newProduct);
@@ -116,7 +116,7 @@ public class ProductController {
 
     /*****/
 
-    //update everything = put mapping
+    //replace the row/object = put mapping
     //@RequestBody - converts received json to Product java object and here it returns a product
     @PutMapping("/{id}")
     public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
@@ -137,8 +137,6 @@ public class ProductController {
     }
 
     /*****/
-
-
 }
 /*
 Product Service
@@ -164,4 +162,45 @@ Later, we replace the fakestore API into Database. Simply, we can say, get the r
 Learning today - Agenda: How we are going to call third party APIs from our product Service
 
 
+ */
+
+/*
+PUT - replace the row/object
+product -> name(NOT NULL), description(NULLABLE), price(NOT NULL), category(NULLABLE)
+
+PUT -> Product -> If we give => name, description, price, category = no problem here
+    -> Product -> If we give => name, null, price, category - here, problem on creating the product because we set description as not null in Category model.
+                                 => If we want to create the product, then set @Nullable on description in model Category
+                                 => Eventhough here the product database is nullable, but our use cse mentioned description as not nullable
+    -> Product -> If we give => null, description, price, category = here problem on creating the product because here the product database mentioned as nullable.
+
+PATCH - update whatever is provided(partial update)
+
+@Autowired - The purpose of autowired, automatically resolves and inject the bean or dependency into marked field constructor or setter method.
+
+class A{
+ B b;
+}
+
+A a = new A();
+So, here B is dependency, A is dependent on B.
+A is product controller, B is product Service here. So, to avoid tight coupling, I've used product service in interface
+
+@Annotation that tells that please create an aobject/bean and store it in AppContext or spring context or IOC Container
+class B{
+
+}
+
+@Service, @repository, @Bean, @Configuration, @RestController, @ResMapping - telling to spring that it is a bean (i.e) object, please
+put it into the application context. Whenever, the application needs this type of object, they can use it from application context. So,
+pass the dependency from outside to avoid tight coupling. Spring provides this features for us...
+
+Dependency Injection:
+
+Dependency - an object that another object relies on to perform its work
+B is the dependency A relies on but A wants to perform some task
+
+Injection - the process of passing the dependencies into dependent object. How? Spring does this...
+
+How DI happens? DI happens using 1) Constructor DI 2) Setter DI 3) Field injection DI
  */

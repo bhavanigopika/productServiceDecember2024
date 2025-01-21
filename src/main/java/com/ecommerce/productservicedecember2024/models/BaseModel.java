@@ -10,8 +10,8 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.UUID;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @MappedSuperclass
 public class BaseModel {
     @Id
@@ -20,7 +20,7 @@ public class BaseModel {
     private Date createdAt;
     private Date updatedAt;
 
-   /* public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -42,5 +42,5 @@ public class BaseModel {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }*/
+    }
 }

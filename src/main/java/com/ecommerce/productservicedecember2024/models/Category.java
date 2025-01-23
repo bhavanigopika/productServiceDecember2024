@@ -2,6 +2,7 @@ package com.ecommerce.productservicedecember2024.models;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -16,8 +17,10 @@ import java.util.List;
 public class Category extends BaseModel{
     private String name;
     private String description;
-    @OneToMany(mappedBy = "category")
+
+    @OneToMany(mappedBy = "category" /*, fetch = FetchType.EAGER*/)
     private List<Product> products;//Here use case is -> for the specific category -> get all the products
+
     /* Note: 1) There is no possible to store list of products in category table. So, mapping table/lookup table created - category_product
              2) In product we have @ManyToOne mapping, many product have 1 category -> this is possible, so category_id created in product table
              3) Actually, mapping table created when we have m : m mapping.
@@ -67,4 +70,8 @@ public class Category extends BaseModel{
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+    /*
+    Fetch type = EAGER -> everytime if you fetch category, then it also fetch all the products
+    But this make the queries slower...
+     */
 }

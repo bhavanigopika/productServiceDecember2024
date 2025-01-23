@@ -10,7 +10,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+/*@Entity
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class Customer {
     private String name;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     private List<Order> orderList = new ArrayList<>();
-}
+}*/
 /*
 Customer:Order
 1:m -> 1 customer can make multiple order

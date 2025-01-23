@@ -74,4 +74,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //then we have to write like it as Oracle Query here - Note down in Native Query
     @Query(nativeQuery = true, value = "select p.id as id, p.title as title from product p")
     List<ProductWithIdAndTitle> nativeSearchMethodForProduct();
+
+    /***/
+    //to pass the parameter, we referred as p.id = :id
+    @Query("select p.id as id, p.title as title from Product p where p.id = :id")
+    ProductWithIdAndTitle randomSearchMethodForProduct(Long id);
 }

@@ -26,6 +26,7 @@ public class SampleController {
     //if it is in {} -> name is variable parameter, name is coming from the url path
     @GetMapping("/hello/{name}")
     public String sayHello(@PathVariable ("name") String name){
+
         return "Hello " + name;
     }
 

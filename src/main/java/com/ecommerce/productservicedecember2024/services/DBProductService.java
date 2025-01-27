@@ -21,7 +21,7 @@ public class DBProductService implements ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
 
-    DBProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public DBProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
     }

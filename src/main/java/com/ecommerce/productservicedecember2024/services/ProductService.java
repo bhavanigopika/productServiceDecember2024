@@ -3,6 +3,7 @@ package com.ecommerce.productservicedecember2024.services;
 import com.ecommerce.productservicedecember2024.dto.GetProductDto;
 import com.ecommerce.productservicedecember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicedecember2024.models.Product;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface ProductService {
     GetProductDto replaceProductDto(Long id, Product newProduct) throws ProductNotFoundException;
 
     Product addNewProduct(Product product);
+
+    Page<Product> getAllProductsByPages(int pageNumber, int pageSize);
 }

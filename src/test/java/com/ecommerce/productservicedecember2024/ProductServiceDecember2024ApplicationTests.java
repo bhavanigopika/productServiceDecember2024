@@ -128,9 +128,9 @@ class ProductServiceDecember2024ApplicationTests {
         if(category != null) {
             System.out.println(category.getName()); //one plus 13R
             System.out.println(category.getDescription());//one plus
-            //For fetch type = eager in list<product> of category model, the following line works where we check in threads and variables but when we do fetch type = lazy
-            //the following line not work, it shows some exception in threads and variables, so put @Transactional
-            System.out.println(category.getProducts());//Refer threads and variables
+            //For fetch type = eager in list<product> of category model, the following line works where we check in "threads and variables"(next to console)
+            //but when we do fetch type = lazy, the following line not work, it shows some exception in "threads and variables"(next to console), so put @Transactional
+            //System.out.println(category.getProducts());//Refer threads and variables
         }
 
 

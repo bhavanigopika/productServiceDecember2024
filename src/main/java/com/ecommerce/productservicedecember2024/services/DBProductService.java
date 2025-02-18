@@ -7,6 +7,10 @@ import com.ecommerce.productservicedecember2024.models.Product;
 import com.ecommerce.productservicedecember2024.repositories.CategoryRepository;
 import com.ecommerce.productservicedecember2024.repositories.ProductRepository;
 import com.fasterxml.jackson.core.ObjectCodec;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,6 +48,27 @@ public class DBProductService implements ProductService {
         List<Product> products = productRepository.findAll();
 
         return products;
+    }
+
+    @Override
+    public Page<Product> getAllProductsByPages(int pageNumber, int pageSize) {
+        //get page number, page size from client, So I passed the parameter
+        /*
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Product> products1 = productRepository.findAll(pageable);
+        return products1;
+        */
+
+        //get page number, page size from client. Also do sort here. You can also provide sort after getting from client itself. In this case, provide String sortProperty in 54th line
+        //addition to 2 parameter int pageNumber, int pageSize (i.e) (int pageNumber, int pageSize, String  sortProperty). Now, we didn't do like this now. Passing sort fn in services
+        Sort sort = Sort.by("price").ascending().and(Sort.by("title").descending());
+        //sort.by -> sort by price, .ascending -> sort by ascending order, if same price exist, then use 2nd parameter Sort by title in descending order
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        Page<Product> products1 = productRepository.findAll(pageable);
+        return products1;
+
+        //Alternate way: convert Page<Product> to a List<Product>
+
     }
 
     @Override
@@ -202,5 +227,4 @@ public class DBProductService implements ProductService {
         }
         */
     }
-
 }

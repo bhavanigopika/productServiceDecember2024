@@ -10,17 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +35,7 @@ public class ProductController {
     }*/
 
     //Another way to provide @Qualifier is application.properties(check in the configuration file) - so, provide variable name and use configuration file to add the qualifier
-    @GetMapping(
-            path="/{id}", produces = "application/json"
-    )
+    @GetMapping(path="/{id}", produces = "application/json")
     public Product getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
         //return productService.getSingleProduct(id);//return type is product here, I have mentioned directly here
         Product product = productService.getSingleProduct(id);
@@ -87,7 +78,7 @@ public class ProductController {
 
     /*****/
 
-    @GetMapping()
+    @GetMapping("/all")
     public List<Product> getAllProducts(){
         return productService.getAllProducts();//this will return list of productsList<Products>
     }
@@ -97,6 +88,12 @@ public class ProductController {
     public ResponseEntity<List<Product>> getAllProductsAndCheckResponseEntity(){
         ResponseEntity<List<Product>> responseEntity = new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
         return responseEntity;
+    }
+
+    @GetMapping()
+    public ResponseEntity<Page<Product>> getAllProductsByPages(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize){
+        ResponseEntity<Page<Product>>  responseEntity1 = new ResponseEntity<>(productService.getAllProductsByPages(pageNumber, pageSize), HttpStatus.OK);
+        return responseEntity1;
     }
 
     /*****/
@@ -133,6 +130,7 @@ public class ProductController {
     //create the product - post mapping
     @PostMapping()
     public Product addNewProduct(@RequestBody Product product){
+
         return productService.addNewProduct(product);
     }
 
@@ -203,4 +201,14 @@ B is the dependency A relies on but A wants to perform some task
 Injection - the process of passing the dependencies into dependent object. How? Spring does this...
 
 How DI happens? DI happens using 1) Constructor DI 2) Setter DI 3) Field injection DI
+ */
+
+/*
+Pagination:
+
+Pageable = represents the request for a specific page of data
+PageRequest = concrete implementation of Pageable(Pageable is interface)
+              PageRequest helps us with pagination which controls page number, page size
+              Why does it help? It reduces the db load, fetching the necessary/required records
+              PageRequest is powerful and efficient way to handle pagination and sorting also in spring data jpa.
  */

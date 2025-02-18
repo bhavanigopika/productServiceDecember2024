@@ -43,4 +43,9 @@ public class GlobalExceptionHandler {
         ResponseEntity<String> responseEntity = ResponseEntity.badRequest().body(e.getMessage());
         return responseEntity;
     }
+
+    @ExceptionHandler
+    public String tryOutExceptionHandler(Exception ex){
+        return ex.getMessage();
+    }
 }

@@ -8,6 +8,7 @@ import com.ecommerce.productservicedecember2024.models.Product;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,11 @@ public class FakeStoreProductService implements ProductService {
     And I defined that part (by saying some annotation to spring) in ApplicationConfig class. That's why I am initializing the restTemplate here through constructor like this
      */
     RestTemplate restTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
-    public FakeStoreProductService(RestTemplate restTemplate) {//mark rest template as bean
-
+    public FakeStoreProductService(RestTemplate restTemplate, RedisTemplate<String, Object> redisTemplate) {//mark rest template as bean
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -42,12 +44,12 @@ public class FakeStoreProductService implements ProductService {
     no need to create object of Rest Template each and every time. So, take RestTemplate at outside and marked it as bean. Because, if tomorrow, we want to change this "restTemplate" as some other,
     then entire things could change
     (Think about Bank API interface).
-    So, we will create a class called ApplicationConfig to define RestTemplate*/
+    So, we will create a class called ApplicationConfig to define RestTemplate */
 
         //FakeStoreProductDto.class - I will provide the class of mapping (i.e) responseType...My responseType is like FakeStoreProductDto and not like Product class.
         //So, after getting the response from fakeStoreProductDto, I set it into my Product class. Finally, I will return this product
 
-        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class);
+/*       FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class);
 
         //throw new RuntimeException("This is an Exception. This is thrown from Product Service");
 
@@ -57,7 +59,27 @@ public class FakeStoreProductService implements ProductService {
             throw new ProductNotFoundException("The product id " + productId + " does not exist");
         }
 
-        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);*/
+
+        //For Redis:
+        //To get the single product, check whether the product is present in redis or not
+        //Try to fetch/get the product from my redis db, so create a redisTemplate at Application config. I am getting it from application context and as I am not creating a redisTemplate again and again
+
+        Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS", "PRODUCT_" + productId); //opsForHash().get accepts key and hashKey
+        if(product != null){
+            //if product is not null, then simply return the product from the cache. It is already present in cache, don't need to go to fakestoreAPI to get the product(so, not to do fakeStoreAPI call) - This is like CACHE HIT
+            return product;
+        }
+        //CACHE MISS - get the product from fakeStoreAPI and put it in cache then return
+        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class);
+        if(fakeStoreProductDto == null){
+            throw new ProductNotFoundException("The product id " + productId + " does not exist");
+        }
+        product =  convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        redisTemplate.opsForHash().put("PRODUCTS", "PRODUCT_" + productId, product);//opsForHash().put accepts key, hashKey and value...key = PRODUCTS, hashkey = productId, value = product
+        return product;
+
+
     }
 
     public Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto fakeStoreProductDto) {
@@ -176,4 +198,22 @@ public class FakeStoreProductService implements ProductService {
         return new PageImpl<>(products);
         //return null;
     }
+
+    //REDIS
+    /*
+    Redis internally stores multiple types of data - PRODUCTS, ORDERS, USERS
+    Think of like(to understand) [actually not store as tables], there are different tables - PRODUCTS, ORDERS, USERS
+
+   -----------------------------------------------------------
+   |      PRODUCTS      |       ORDERS       |     USERS     |
+   |--------------------|--------------------|---------------|
+   |product_id product  |  order_id, order   |  user_id, user|
+   -----------------------------------------------------------
+
+    key           -   PRODUCTS         ORDERS          USERS
+
+    hashKey       -   product_id      order_id        user_id
+
+    value         -   product          order          user
+     */
 }

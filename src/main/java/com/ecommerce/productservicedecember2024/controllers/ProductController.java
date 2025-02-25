@@ -25,9 +25,12 @@ public class ProductController {
     //@Qualifier("${my.bean.qualifier}")
     ProductService productService;//instance(object created from a class) of the product service interface
 
-    public ProductController(@Qualifier("dbProductService") ProductService productService){//@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
+    /*public ProductController(@Qualifier("dbProductService") ProductService productService){//@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService
                                                                                                   //here, this productService coming from spring. spring puts the service bean to here. spring framework created as bean and store them in IOC container
-        this.productService = productService;
+
+    */
+    this.productService = productService;
     }
 
     /*public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
@@ -70,7 +73,7 @@ public class ProductController {
         return response;*/
 
         //Controller - should act as waiter. So, handle the exception in controller is also not better. So, handle it in GlobalExceptionHandler whatever Service layer returns to this Controller. Controller goes
-        // to controllerAdivce and exception message goes to the client. Why we are doing like this because we are using java in spring framework not simply doing the code as java
+        // to controllerAdvice and exception message goes to the client. Why we are doing like this because we are using java in spring framework not simply doing the code as java
 
         ResponseEntity<Product> responseEntity = new ResponseEntity<>(productService.getSingleProduct(id), HttpStatus.OK);
         return responseEntity;

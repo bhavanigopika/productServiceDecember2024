@@ -7,13 +7,20 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
+
+/*
+For redis(like db), we implements Serializable - serialize the particular product. Serialize it by "Redis template".
+a) To convert into json from product or category object (i.e) serialize.
+b) convert back into product or category from json(i.e) deserialize
+*/
 
 //@Getter
 //@Setter
 @MappedSuperclass
-public class BaseModel {
+public class BaseModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//identity - auto increment
     private Long id;

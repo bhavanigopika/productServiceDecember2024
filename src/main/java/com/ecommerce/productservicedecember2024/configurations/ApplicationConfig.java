@@ -2,6 +2,8 @@ package com.ecommerce.productservicedecember2024.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.client.RestTemplate;
 
 //This application config is a configuration class in springboot application.
@@ -20,6 +22,15 @@ public class ApplicationConfig{
           //here, bean producer produces a new object of rest template
     public RestTemplate getRestTemplate(){//we are returning the RestTemplate here
         return new RestTemplate();
+    }
+
+    //object defined here, it may be product, order, user
+    //RedisTemplate<Key, Value> pair -> key may be product id, user id, object id, so, generally take it as String
+    @Bean
+    public RedisTemplate<String, Object> getRedisTemplate(RedisConnectionFactory redisConnectionFactory){
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        return redisTemplate;
     }
 
     /*

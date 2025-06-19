@@ -1,5 +1,8 @@
 package com.ecommerce.productservicedecember2024.dto;
 
+//dto - it is wrapper of few attributes what you have
+//fakeStoreProductDto - what fake store is returning is different from what I want in my model
+
 //We created the dto because the fake store api is sending all these things when we call the product object
 //we require DTOs when we call thirdparty API's, because there is a mapping needed between how fake store api's internally store the product data
 //Our internal product model is mapped between our product model and our database.

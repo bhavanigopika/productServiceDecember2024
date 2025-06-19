@@ -6,6 +6,7 @@ import com.ecommerce.productservicedecember2024.models.Category;
 import com.ecommerce.productservicedecember2024.models.Product;
 import com.ecommerce.productservicedecember2024.repositories.ProductRepository;
 import com.ecommerce.productservicedecember2024.services.ProductService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,12 +26,15 @@ public class ProductController {
     //@Qualifier("${my.bean.qualifier}")
     ProductService productService;//instance(object created from a class) of the product service interface
 
-    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
-    /*public ProductController(@Qualifier("dbProductService") ProductService productService){//@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService
-                                                                                                  //here, this productService coming from spring. spring puts the service bean to here. spring framework created as bean and store them in IOC container
+    //we can use @Primary in one of the service either dbProductService or fakeStoreProductService whichever we want
+    //@Primary -> indicates a default bean to be injected when no specific qualifer is provided
+    //@Qualifier -> specifies exactly when bean should be injected when multiple candidated exist.
+    //So, use @Qualifier which has higher priority than @Primary means it will override the @Primary selection
 
-    */
-    this.productService = productService;
+    //public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
+    public ProductController(@Qualifier("dbProductService") ProductService productService){//@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService
+                                                                                                  //here, this productService coming from spring. spring puts the service bean to here. spring framework created as bean and store them in IOC container
+        this.productService = productService;
     }
 
     /*public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
@@ -77,6 +81,25 @@ public class ProductController {
 
         ResponseEntity<Product> responseEntity = new ResponseEntity<>(productService.getSingleProduct(id), HttpStatus.OK);
         return responseEntity;
+
+        //To learn test case for negative scenario, change the code
+        //call the productService, but you return a new Product, see line no:101
+
+        //Product product = productService.getSingleProduct(id);
+
+        //Let's add the product
+
+        //Scenario 1: add the product with some values
+//        Product p1 = new Product();
+//        p1.setId(id);
+//        p1.setPrice(480.0);
+//        p1.setTitle("Books");
+//        ResponseEntity<Product> responseEntity = new ResponseEntity<>(p1, HttpStatus.OK);
+//        return responseEntity;
+
+        //Scenario 2: add the empty product as new Product
+//        ResponseEntity<Product> responseEntity1 = new ResponseEntity<>(new Product()/*product*/, HttpStatus.OK);
+//        return responseEntity1;
     }
 
     /*****/

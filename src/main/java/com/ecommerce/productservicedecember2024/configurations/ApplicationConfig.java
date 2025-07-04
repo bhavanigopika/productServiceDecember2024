@@ -1,5 +1,6 @@
 package com.ecommerce.productservicedecember2024.configurations;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -18,8 +19,10 @@ import org.springframework.web.client.RestTemplate;
 public class ApplicationConfig{
 
     //Tell to spring that this is bean, so use @Bean annotation here
-    @Bean //@Bean denotes that getRestTemplate method is a bean producer not bean. If it is bean producer, then take this bean(object (i.e) restTemplate here) and put it into the application context or IOC container, so that classes, services use this
-          //here, bean producer produces a new object of rest template
+    //@Bean denotes that getRestTemplate method is a bean producer not bean. If it is bean producer, then take this bean(object (i.e) restTemplate here) and put it into the application context or IOC container, so that classes, services use this
+    //here, bean producer produces a new object of rest template
+    @Bean
+    @LoadBalanced
     public RestTemplate getRestTemplate(){//we are returning the RestTemplate here
         return new RestTemplate();
     }

@@ -26,14 +26,15 @@ public class ProductController {
     //@Qualifier("${my.bean.qualifier}")
     ProductService productService;//instance(object created from a class) of the product service interface
 
-    //we can use @Primary in one of the service either dbProductService or fakeStoreProductService whichever we want
+    //we can use @Primary in one of the service either dbProductService or fakeStoreProductService specifically to that service whichever we want
     //@Primary -> indicates a default bean to be injected when no specific qualifer is provided
     //@Qualifier -> specifies exactly when bean should be injected when multiple candidated exist.
     //So, use @Qualifier which has higher priority than @Primary means it will override the @Primary selection
 
-    //public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
-    public ProductController(@Qualifier("dbProductService") ProductService productService){//@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
+    //public ProductController(@Qualifier("dbProductService") ProductService productService){//@Qualifier - we can choose among which bean object is to use either DBProductService or FakeStoreProductService
                                                                                                   //here, this productService coming from spring. spring puts the service bean to here. spring framework created as bean and store them in IOC container
+    //public ProductController(ProductService productService){
         this.productService = productService;
     }
 

@@ -49,6 +49,8 @@ public class FakeStoreProductService implements ProductService {
         //FakeStoreProductDto.class - I will provide the class of mapping (i.e) responseType...My responseType is like FakeStoreProductDto and not like Product class.
         //So, after getting the response from fakeStoreProductDto, I set it into my Product class. Finally, I will return this product
 
+/*
+
        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class);
 
         //throw new RuntimeException("This is an Exception. This is thrown from Product Service");
@@ -61,14 +63,17 @@ public class FakeStoreProductService implements ProductService {
 
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
 
+*/
+
         //For Redis:
         //To get the single product, check whether the product is present in redis or not
-        //Try to fetch/get the product from my redis db, so create a redisTemplate at Application config. I am getting it from application context and as I am not creating a redisTemplate again and again
+        //Try to fetch/get the product from my redis db, so create a redisTemplate at Application config. I am getting it from application context so, I am not creating a redisTemplate again and again
 
 /*
         Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS", "PRODUCT_" + productId); //opsForHash().get accepts key and hashKey
         if(product != null){
-            //if product is not null, then simply return the product from the cache. It is already present in cache, don't need to go to fakestoreAPI to get the product(so, not to do fakeStoreAPI call) - This is like CACHE HIT
+            //if product is not null, then simply return the product from the cache. It is already present in cache, don't need to go to fakestoreAPI to get the product(so, not to do fakeStoreAPI call) - This is like CACHE HIT.
+            //CACHE HIT
             return product;
         }
         //CACHE MISS - get the product from fakeStoreAPI and put it in cache then return
@@ -79,8 +84,15 @@ public class FakeStoreProductService implements ProductService {
         product =  convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
         redisTemplate.opsForHash().put("PRODUCTS", "PRODUCT_" + productId, product);//opsForHash().put accepts key, hashKey and value...key = PRODUCTS, hashkey = productId, value = product
         return product;
-
 */
+        /*Call from microservice to another microservice:
+        Now, from product service let's call the user service in a load balanced way
+        call sampleAPI in user service.
+        user service running in 8080. Also, I have created another 2 servers of same user service with port no:8081 and 8082.
+        I want to leverage the user service application (i.e) balance the load to any one user service servers. So, change from "http://localhost:8080/users/sample" into "http://USERSERVICEAPPLICATION/users/sample"
+        Balance the load at RestTemplate. Make @LoadBalanced in RestTemplate object. Refer in ApplicationConfig class */
+        restTemplate.getForObject("http://USERSERVICEAPPLICATION/users/sample", void.class);
+        return null;
     }
 
     public Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto fakeStoreProductDto) {

@@ -85,6 +85,7 @@ public class FakeStoreProductService implements ProductService {
         redisTemplate.opsForHash().put("PRODUCTS", "PRODUCT_" + productId, product);//opsForHash().put accepts key, hashKey and value...key = PRODUCTS, hashkey = productId, value = product
         return product;
 */
+        //We do the changes in FakeStoreProductService, so in product controller change the qualifier for fakestorproductservice
         /*Call from microservice to another microservice:
         Now, from product service let's call the user service in a load balanced way
         call sampleAPI in user service.

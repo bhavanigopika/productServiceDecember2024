@@ -44,7 +44,9 @@ public class FakeStoreProductService implements ProductService {
     no need to create object of Rest Template each and every time. So, take RestTemplate at outside and marked it as bean. Because, if tomorrow, we want to change this "restTemplate" as some other,
     then entire things could change
     (Think about Bank API interface).
-    So, we will create a class called ApplicationConfig to define RestTemplate */
+    So, we will create a class called ApplicationConfig to define RestTemplate
+    Note: When generally we are using 3rd party API, (here, we used FakeStoreapi), then put it into try-catch block, because if code not works then we see
+    the meaningful message from catch block instead of getting internal server error*/
 
         //FakeStoreProductDto.class - I will provide the class of mapping (i.e) responseType...My responseType is like FakeStoreProductDto and not like Product class.
         //So, after getting the response from fakeStoreProductDto, I set it into my Product class. Finally, I will return this product
@@ -85,14 +87,35 @@ public class FakeStoreProductService implements ProductService {
         redisTemplate.opsForHash().put("PRODUCTS", "PRODUCT_" + productId, product);//opsForHash().put accepts key, hashKey and value...key = PRODUCTS, hashkey = productId, value = product
         return product;
 */
-        //We do the changes in FakeStoreProductService, so in product controller change the qualifier for fakestorproductservice
-        /*Call from microservice to another microservice:
+
+        //We do the changes in FakeStoreProductService, so in product controller change the qualifier for fakestoreproductservice
+
+        //Call from one microservice to another microservice:
+        /*
         Now, from product service let's call the user service in a load balanced way
         call sampleAPI in user service.
         user service running in 8080. Also, I have created another 2 servers of same user service with port no:8081 and 8082.
         I want to leverage the user service application (i.e) balance the load to any one user service servers. So, change from "http://localhost:8080/users/sample" into "http://USERSERVICEAPPLICATION/users/sample"
-        Balance the load at RestTemplate. Make @LoadBalanced in RestTemplate object. Refer in ApplicationConfig class */
+        Balance the load at RestTemplate. Make @LoadBalanced in RestTemplate object. Refer in ApplicationConfig class
+        */
+/*
         restTemplate.getForObject("http://USERSERVICEAPPLICATION/users/sample", void.class);
+        return null;
+
+*/
+
+        //Now, understand API Gateway:
+        /*Goal is to call product service from ApiGateway application
+        * Running service discovery (or) Eureka server and run the http://localhost:8761 in chrome
+        * Running user service application
+        * Running api gateway application
+        * Run the postman and hit this link: http://localhost:7070/product/1  -> This is getting product service which is directly from the client hitting it
+        * So, let's print and  return null
+        * Now, call the product service from the Api gateway now
+        * API gateway check that this is product service related query and send the request to product service
+        * Hit this link in postman: http://localhost:9090/product/1 -> API gateway running in 9090 server port
+        * Yes, we got the below line in the console of ProductService application*/
+        System.out.println("Got the request in Product Service");
         return null;
     }
 
